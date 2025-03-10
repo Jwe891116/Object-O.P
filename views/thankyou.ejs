@@ -13,18 +13,21 @@
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/package">Create Package</a></li>
-                <li><a href="/packages">Track Package</a></li>
+                <li><a href="track_package.ejs">Track Package</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <section>
-            <h2>Welcome to the Postal Service System</h2>
-            <p>Manage your packages efficiently with our system. Create new packages, track their status, and view details.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Postal Service. All rights reserved.</p>
-    </footer>
+    <h1>Thank you, <%= senderName %>!</h1>
+    <p>Package confirmed!</p>
+    <p>Receiver: <%= receiverName %></p>
+    <p>Shipping Method: <%= shippingMethod %></p>
+    <p>Weight: <%= weight %> kg</p>
+</section>
+</main>
+<footer>
+    <p>&copy; 2025 Postal Service. All rights reserved.</p>
+</footer>
 </body>
 </html>

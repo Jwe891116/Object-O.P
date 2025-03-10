@@ -4,50 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Package</title>
-    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Create a New Package</h1>
+        <h1>Postal Service System</h1>
         <nav>
             <ul>
-                <li><a href="home.ejs">Home</a></li>
-                <li><a href="create_package.ejs">Create Package</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/package">Create Package</a></li>
                 <li><a href="track_package.ejs">Track Package</a></li>
             </ul>
         </nav>
     </header>
-    <main>
-        <section>
-            <h2>Enter Package Details</h2>
-            <form action="submit_package.html" method="get">
-                <label for="senderName">Sender's Name:</label>
-                <input type="text" id="senderName" name="senderName" required><br><br>
-                
-                <label for="receiverName">Receiver's Name:</label>
-                <input type="text" id="receiverName" name="receiverName" required><br><br>
-                
-                <label for="senderAddress">Sender's Address:</label>
-                <input type="text" id="senderAddress" name="senderAddress" required><br><br>
-                
-                <label for="receiverAddress">Receiver's Address:</label>
-                <input type="text" id="receiverAddress" name="receiverAddress" required><br><br>
-                
-                <label for="weight">Package Weight (kg):</label>
-                <input type="number" id="weight" name="weight" step="0.1" required><br><br>
-                
-                <label for="shippingMethod">Shipping Method:</label>
-                <select id="shippingMethod" name="shippingMethod" required>
-                    <option value="One-Day">One-Day</option>
-                    <option value="Two-Day">Two-Day</option>
-                </select><br><br>
-                
-                <button type="submit">Create Package</button>
-            </form>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Postal Service. All rights reserved.</p>
-    </footer>
+    <h1>Create a New Package</h1>
+    <form action="/packages" method="POST">
+        <label for="senderName">Sender Name:</label>
+        <input type="text" id="senderName" name="senderName" required><br><br>
+
+        <label for="senderAddress">Sender Address:</label>
+        <input type="text" id="senderAddress" name="senderAddress" required><br><br>
+
+        <label for="receiverName">Receiver Name:</label>
+        <input type="text" id="receiverName" name="receiverName" required><br><br>
+
+        <label for="receiverAddress">Receiver Address:</label>
+        <input type="text" id="receiverAddress" name="receiverAddress" required><br><br>
+
+        <label for="weight">Weight:</label>
+        <input type="number" id="weight" name="weight" required><br><br>
+
+        <label for="shippingMethod">Shipping Method:</label>
+        <select id="shippingMethod" name="shippingMethod" required>
+            <option value="One-Day">One-Day</option>
+            <option value="Two-Day">Two-Day</option>
+        </select><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
 </body>
 </html>
