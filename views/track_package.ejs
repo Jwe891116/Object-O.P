@@ -4,28 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track Package</title>
-    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>Track Your Package</h1>
         <nav>
             <ul>
-                <li><a href="home.ejs">Home</a></li>
-                <li><a href="create_package.ejs">Create Package</a></li>
-                <li><a href="track_package.ejs">Track Package</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/package">Create Package</a></li>
+                <li><a href="/track_package">Track Package</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <section>
             <h2>Enter Tracking Number</h2>
-            <form action="package_status.html" method="get">
+            <form action="/search" method="GET">
                 <label for="trackingNumber">Tracking Number:</label>
                 <input type="text" id="trackingNumber" name="trackingNumber" required><br><br>
                 <button type="submit">Track Package</button>
             </form>
         </section>
+
+        <!-- Search Results Section -->
+        <% if (packages.length > 0) { %>
+            <h2>Search Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tracking Number</th>
+                        <th>Sender</th>
+                        <th>Receiver</th>
+                        <th>Status</th>
+                        <th>Shipping Method</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% packages.slice((currentPage - 1) * 5, currentPage * 5).forEach(pkg => { %>
+                        <tr>
+                            <td><%= pkg.getTrackingNumber() %></td>
+                            <td><%= pkg.getSenderName() %></td>
+                            <td><%= pkg.getReceiverName() %></td>
+                            <td><%= pkg.getStatus() %></td>
+                            <td><%= pkg.getShippingMethod() %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+
+            <!-- Pagination Controls -->
+            <div class="pagination">
+                <% if (currentPage > 1) { %>
+                    <a href="?page=<%= currentPage - 1 %>">Previous</a>
+                <% } %>
+                <span>Page <%= currentPage %> of <%= totalPages %></span>
+                <% if (currentPage < totalPages) { %>
+                    <a href="?page=<%= currentPage + 1 %>">Next</a>
+                <% } %>
+            </div>
+        <% } else { %>
+            <p>No package found.</p>
+        <% } %>
     </main>
     <footer>
         <p>&copy; 2025 Postal Service. All rights reserved.</p>

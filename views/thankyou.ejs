@@ -3,31 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Postal Service - Home</title>
+    <title>Thank You</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Postal Service System</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/package">Create Package</a></li>
-                <li><a href="track_package.ejs">Track Package</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section>
-    <h1>Thank you, <%= senderName %>!</h1>
-    <p>Package confirmed!</p>
-    <p>Receiver: <%= receiverName %></p>
-    <p>Shipping Method: <%= shippingMethod %></p>
+    <h1>Thank You!</h1>
+    <p>Your package has been created successfully.</p>
+    <h2>Package Details</h2>
+    <p>Tracking Number: <%= trackingNumber %></p>
+    <p>Sender: <%= senderName %>, <%= senderAddress %></p>
+    <p>Receiver: <%= receiverName %>, <%= receiverAddress %></p>
     <p>Weight: <%= weight %> kg</p>
-</section>
-</main>
-<footer>
-    <p>&copy; 2025 Postal Service. All rights reserved.</p>
-</footer>
+    <p>Shipping Method: <%= shippingMethod %></p>
+    <p>Status: <%= status %></p>
+    <p>Total Cost: $<%= calculateCost() %></p>
+    <a href="/">Return Home</a>
 </body>
 </html>

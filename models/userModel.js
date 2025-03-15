@@ -1,44 +1,152 @@
-// userModel.js
-import pool from '../database/db.cjs';
+import { Package } from "../Package.js";
+import { OneDay } from "../OneDay.js";
+import { TwoDay } from "../TwoDay.js";
 
-// Get all packages
-export const getAllPackages = async () => {
-  try {
-    const res = await pool.query('SELECT * FROM packages');
-    return res.rows;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
+let packages = [];
+
+// Hard-code 5 packages into the array
+packages.push(
+    new Package(
+        "John Doe",
+        "123 Main St, Anytown, USA",
+        "Jane Smith",
+        "456 Elm St, Othertown, USA",
+        2.5,
+        "Standard",
+        5.0,
+        "Pending",
+        1 // Tracking number
+    )
+);
+
+packages.push(
+    new OneDay(
+        "Alice Johnson",
+        "789 Oak St, Sometown, USA",
+        "Bob Brown",
+        "321 Pine St, Anothertown, USA",
+        3.0,
+        "OneDay",
+        10.0,
+        "Shipped",
+        2, // Tracking number
+        15.0 // Flat fee
+    )
+);
+
+packages.push(
+    new TwoDay(
+        "Charlie Davis",
+        "654 Maple St, Yourtown, USA",
+        "Eve White",
+        "987 Birch St, Theirtown, USA",
+        4.0,
+        "TwoDay",
+        7.5,
+        "Delivered",
+        3, // Tracking number
+        10.0 // Flat fee
+    )
+);
+
+packages.push(
+    new Package(
+        "Frank Wilson",
+        "135 Cedar St, Mytown, USA",
+        "Grace Lee",
+        "246 Walnut St, Histown, USA",
+        1.5,
+        "Standard",
+        4.0,
+        "Pending",
+        4 // Tracking number
+    )
+);
+
+packages.push(
+    new OneDay(
+        "Hank Green",
+        "369 Spruce St, OurTown, USA",
+        "Ivy Black",
+        "258 Fir St, YourTown, USA",
+        5.0,
+        "OneDay",
+        12.0,
+        "In Transit",
+        5, // Tracking number
+        20.0 // Flat fee
+    )
+);
+
+export const getAllPackages = () => {
+    return packages;
 };
 
-// Add a new package
-export async function addPackage(packageData) {
-  const { sender_name, sender_address, receiver_name, receiver_address, weight, shipping_method } = packageData;
+export const addPackage = (
+    senderName,
+    senderAddress,
+    receiverName,
+    receiverAddress,
+    weight,
+    shippingMethod,
+    costPerUnitWeight,
+    status = "Pending",
+    flatFee = 0
+) => {
+    const trackingNumber = packages.length + 1; // Generate a unique tracking number
+    let newPackage;
 
-  const query = `
-      INSERT INTO packages (sender_name, receiver_name, package_type, receiver_address, ...)
-      VALUES ($1, $2, $3, $4, ...)
-      RETURNING *;
-  `;
-  const values = [ssender_name, sender_address, receiver_name, receiver_address, weight, shipping_method];
+    if (shippingMethod === "OneDay") {
+        newPackage = new OneDay(
+            senderName,
+            senderAddress,
+            receiverName,
+            receiverAddress,
+            weight,
+            shippingMethod,
+            costPerUnitWeight,
+            status,
+            trackingNumber,
+            flatFee
+        );
+    } else if (shippingMethod === "TwoDay") {
+        newPackage = new TwoDay(
+            senderName,
+            senderAddress,
+            receiverName,
+            receiverAddress,
+            weight,
+            shippingMethod,
+            costPerUnitWeight,
+            status,
+            trackingNumber,
+            flatFee
+        );
+    } else {
+        newPackage = new Package(
+            senderName,
+            senderAddress,
+            receiverName,
+            receiverAddress,
+            weight,
+            shippingMethod,
+            costPerUnitWeight,
+            status,
+            trackingNumber
+        );
+    }
 
-  const result = await pool.query(query, values);
-  return result.rows[0];
-}
+    packages.push(newPackage);
+    return newPackage;
+};
 
-// let packages = [];
-  
-// export const getAllPackages = () => {
-//           return packages
-//     }
+export const searchPackages = (query) => {
+    return packages.filter(pkg => 
+        pkg.getSenderName().toLowerCase().includes(query) || 
+        pkg.getReceiverName().toLowerCase().includes(query)
+    );
+};
 
-// export const addPackage = ( senderName, senderAddress, receiverName, receiverAddress,
-//                             weight, shippingMethod) => {
-
-//         const newPackage= { senderName, senderAddress, receiverName, receiverAddress,
-//                             weight, shippingMethod }; 
-                            
-//         packages.push(newPackage); 
-//         return newPackage;
-//     };
+export const findPackageByTrackingNumber = (trackingNumber) => {
+    return packages.find(pkg => pkg.getTrackingNumber() === trackingNumber);
+};
