@@ -15,6 +15,4 @@ router.get("/track_package", getSearch);
 
 router.get("/search", getInfo);
 
-// router.get('/test-db', testDbConnection);
-
 export default router;
